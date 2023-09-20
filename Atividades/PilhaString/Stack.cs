@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace StackClass
 {
@@ -46,7 +47,7 @@ namespace StackClass
                 Console.WriteLine("Stack Underflow");
                 return;
             }
-            Console.WriteLine($"O topo da pilha é: {stack[top]}");
+            Console.WriteLine($"O primeiro do monte é: {stack[top]}");
         }
 
         public void PrintStack()
@@ -56,13 +57,18 @@ namespace StackClass
                 Console.WriteLine("Stack Underflow");
                 return;
             }
-            Console.WriteLine("Itens da pilha:");
+            int cont = 0;
+            Console.WriteLine("Pessoas no monte:");
             for (int i = top; i >= 0; i--)
             {
-                string texto = $"Stack[{stack[i]}]";
+                string texto = stack[i];
                 Console.WriteLine(texto);
+                cont++;
             }
-
+            if (cont >= 4)
+            {
+                Console.WriteLine($"{stack[0]} foi esmagado devido a grande quantidade de pessoas em cima dele(a).");
+            }
         }
     }
 }
