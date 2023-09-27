@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Reflection;
 
 //criar hashtable
 Hashtable openWith = new Hashtable();
