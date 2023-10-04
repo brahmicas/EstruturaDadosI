@@ -1,69 +1,80 @@
-﻿string [,] matriz = new string [3,3];
-bool vitoria=false;
-
-Console.WriteLine("Bem-vindo ao jogo da velha!");
-Console.WriteLine("Na vez de cada jogador, será pedido a linha e a coluna onde deseja jogar.");
-
-while (vitoria==false)
+﻿class Program
 {
-    //vez de X
-    bool x = false;
-    while (x == false)
-    {
-        Console.WriteLine("Vez de X:");
-        Console.WriteLine("Numero da linha:");
-        int linhax = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Numero da coluna:");
-        int colunax = Convert.ToInt32(Console.ReadLine()); 
-        if (matriz[linhax, colunax] == null)
-        {
-            matriz[linhax, colunax]="X";
-            x=true;
-        }  
-        else
-        {
-            Console.WriteLine("Posição já ocupada.");
-        }    
+    static readonly string[,] matriz = new string[3, 3];
+    static bool vitoria = false;
 
-        for (int i = 0; i < matriz.GetLength(0); i++)
-        {
-            for(int j = 0; j < matriz.GetLength(1); j++)
-            {
-                Console.Write(
-                    $"[{matriz[i,j]}]"
-                );
-            }
-            Console.WriteLine("");
-        } 
-    }
-
-    //vez de O
-    bool o = false;
-    while (o==false)
+    static void Main(string[] args)
     {
-        Console.WriteLine("Vez de O:");
-        Console.WriteLine("Numero da linha:");
-        int linhao = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Numero da coluna:");
-        int colunao = Convert.ToInt32(Console.ReadLine()); 
-        if (matriz[linhao, colunao] == null)
+        Console.WriteLine("Bem-vindo ao jogo da velha!");
+        Console.WriteLine("Na vez de cada jogador, será pedido a linha e a coluna onde deseja jogar.");
+
+        while (vitoria == false)
         {
-            matriz[linhao, colunao]="O";
-            o = true;
-        }  
-        else
-        {
-            Console.WriteLine("Posição já ocupada.");
+            FazerJogada("X");
+
+            if (vitoria==false)
+                FazerJogada("O");
         }
-        for (int i = 0; i < matriz.GetLength(0); i++)
-        {
-            for(int j = 0; j < matriz.GetLength(1); j++)
-            {
-                Console.Write(
-                    $"[{matriz[i,j]}]"
-                );
-            }
-            Console.WriteLine("");
-        } 
     }
-};
+
+    static void FazerJogada(string jogador)
+    {
+        bool jogadaValida = false;
+
+        while (jogadaValida==false)
+        {
+            Console.WriteLine($"Vez de {jogador}:");
+            Console.WriteLine("Número da linha:");
+            int linha = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Número da coluna:");
+            int coluna = Convert.ToInt32(Console.ReadLine());
+
+            if (linha >= 0 && linha < 3 && coluna >= 0 && coluna < 3 && matriz[linha, coluna] == null)
+            {
+                matriz[linha, coluna] = jogador;
+                jogadaValida = true;
+                ImprimirTabuleiro();
+                vitoria = VerificarVitoria(jogador, linha, coluna);
+            }
+            else
+            {
+                Console.WriteLine("Posição ocupada.");
+            }
+        }
+    }
+
+    static void ImprimirTabuleiro()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                Console.Write($"[{matriz[i, j] ?? " "}]");
+            }
+            Console.WriteLine();
+        }
+    }
+
+    static bool VerificarVitoria(string jogador, int linha, int coluna)
+    {
+        if (matriz[linha, 0] == jogador && matriz[linha, 1] == jogador && matriz[linha, 2] == jogador)
+            return true;
+
+        if (matriz[0, coluna] == jogador && matriz[1, coluna] == jogador && matriz[2, coluna] == jogador)
+            return true;
+
+        if (linha == coluna)
+        {
+            if (matriz[0, 0] == jogador && matriz[1, 1] == jogador && matriz[2, 2] == jogador)
+                return true;
+        }
+
+        if (linha + coluna == 2)
+        {
+            if (matriz[0, 2] == jogador && matriz[1, 1] == jogador && matriz[2, 0] == jogador)
+                return true;
+        }
+
+        return false;
+    }
+}
