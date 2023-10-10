@@ -1,88 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class Program
+class Program
 {
-    public static void Main()
+    public static void BucketSort(int[] array)
     {
-        int[] array = new int[10];
-        Random random=new Random();
-        for (int i =0; i < array.Length; i++)
-        { 
-            array[i] = random.Next(-50, 50); 
-        }
-        Console.WriteLine("vetores desorganizado");
-        for (int i = 0; i < array.Length; i++)
-        { 
-            Console.Write(array[i] + ", "); 
-        } 
-        Console.WriteLine();
-        Console.WriteLine("vetores organizado");
+        if (array == null || array.Length <= 1)
+            return;
 
-        int[] sortedArray = BucketSort(array);
-        Console.WriteLine(string.Join(", ", sortedArray));
-    }
-    
-    public static int[] BucketSort(int[] array)
-    {
-        // Encontre o valor mínimo e máximo do array
-        int min = array[0];
-        int max = array[0];
+        int maxValue = array[0];
+        int minValue = array[0];
+
+        // Encontre o valor máximo e mínimo no vetor
         for (int i = 1; i < array.Length; i++)
         {
-            if (array[i] < min) min = array[i];
-            if (array[i] > max) max = array[i];
+            if (array[i] > maxValue)
+                maxValue = array[i];
+            if (array[i] < minValue)
+                minValue = array[i];
         }
-        
-        // Calcule o intervalo de cada balde
-        int bucketRange = (max - min + 1) / array.Length + 1;
-        
-        // Crie uma lista de listas vazias para representar os baldes
-        List<List<int>> buckets = new List<List<int>>();
+
+        // Crie um vetor temporário para contar as ocorrências dos valores
+        int[] bucket = new int[maxValue - minValue + 1];
+
+        // Conte as ocorrências dos valores no vetor original
         for (int i = 0; i < array.Length; i++)
         {
-            buckets.Add(new List<int>());
+            bucket[array[i] - minValue]++;
         }
-        
-        // Para cada elemento do array, calcule o índice do balde correspondente e adicione o elemento nesse balde
-        for (int i = 0; i < array.Length; i++)
-        {
-            int bucketIndex = (array[i] - min) / bucketRange;
-            buckets[bucketIndex].Add(array[i]);
-        }
-        
-        // Para cada balde, ordene os seus elementos usando insertion sort
-        for (int i = 0; i < buckets.Count; i++)
-        {
-            InsertionSort(buckets[i]);
-        }
-        
-        // Concatene todos os baldes ordenados em um novo array
-        int[] sortedArray = new int[array.Length];
+
+        // Coloque os valores ordenados de volta no vetor original
         int index = 0;
-        for (int i = 0; i < buckets.Count; i++)
+        for (int i = 0; i < bucket.Length; i++)
         {
-            for (int j = 0; j < buckets[i].Count; j++)
+            while (bucket[i] > 0)
             {
-                sortedArray[index++] = buckets[i][j];
+                array[index] = i + minValue;
+                index++;
+                bucket[i]--;
             }
         }
-        
-        return sortedArray;
     }
-    
-    public static void InsertionSort(List<int> list)
+
+    public static void PrintArray(int[] array)
     {
-        for (int i = 1; i < list.Count; i++)
+        Console.WriteLine("Imprimendo os vetores ");
+        foreach (var item in array)
         {
-            int key = list[i];
-            int j = i - 1;
-            while (j >= 0 && list[j] > key)
-            {
-                list[j + 1] = list[j];
-                j--;
-            }
-            list[j + 1] = key;
-        }
-    }
+            Console.Write(item + ", "); // Correção de "iten" para "item"
+        }
+        Console.WriteLine();
+    }
+
+    static void Main()
+    {
+        int[] array = new int[12]; // Definindo o tamanho do vetor como 12
+
+        Random random = new Random();
+        for (int i = 0; i < array.Length; i++)
+        {
+            array[i] = random.Next(-50, 50);
+        }
+
+        Console.WriteLine("Arrays desordenados");
+        PrintArray(array);
+        Console.WriteLine("====================");
+        BucketSort(array);
+        Console.WriteLine("Arrays ordenados");
+        PrintArray(array);
+        Console.WriteLine("====================");
+    }
 }
