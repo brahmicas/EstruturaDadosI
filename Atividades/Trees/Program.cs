@@ -1,4 +1,5 @@
-﻿using Trees;
+﻿using TreeNode;
+using Tree;
 
 Tree<int> tree = new Tree<int>();
 //inicializa o nó raiz com o valor 1000

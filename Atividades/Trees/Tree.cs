@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TreeNode;
 
-namespace Trees
+namespace Tree
 {
     public class Tree<T>
     {
