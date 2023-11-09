@@ -5,15 +5,27 @@
 
     static void Main(string[] args)
     {
-        Console.WriteLine("Bem-vindo ao jogo da velha!");
-        Console.WriteLine("Na vez de cada jogador, será pedido a linha e a coluna onde deseja jogar.");
-
-        while (vitoria == false)
+        string novamente = "s";
+        while (novamente == "s")
         {
-            FazerJogada("X");
+            Console.WriteLine("Bem-vindo ao jogo da velha!");
+            Console.WriteLine("Na vez de cada jogador, será pedido a linha e a coluna onde deseja jogar.");
 
-            if (vitoria==false)
-                FazerJogada("O");
+            while (vitoria == false)
+            {
+                FazerJogada("X");
+
+                if (vitoria==false)
+                    FazerJogada("O");
+            }
+            Console.WriteLine("Jogo finalizado, jogar novamente? (s/n)");
+            novamente = Console.ReadLine() ?? "n";
+            novamente = novamente.ToLower();
+            if (novamente == "s")
+            {
+                vitoria = false;
+                Array.Clear(matriz);
+            }
         }
     }
 
