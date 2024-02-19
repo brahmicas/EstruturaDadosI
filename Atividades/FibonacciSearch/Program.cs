@@ -55,7 +55,7 @@ class BuscaFibonacci
     static void Main()
     {
         int[] arr = { 10, 22, 35, 40, 45, 50, 80, 82, 85, 90, 100 };
-        int x = 10;
+        int x = 24;
         int resultado = BuscaFibonacciFunc(arr, x);
 
         if (resultado == -1)
